@@ -1,3 +1,9 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define rep(i, x, y)   for ( int i = x; i <= y; i ++)
+#define repi(i, x, y)  for ( int i = x; i >= y; i --)
+const int bignumlen = 3*100005;
 struct bignum{
     int len = 0;
     ll data[bignumlen];
