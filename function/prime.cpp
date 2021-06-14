@@ -18,7 +18,7 @@ vi<int> lpf;
 void sieve(int n){
     prime.assign(1,2);
     lpf.assign(n + 1,2);
-    FOR(x,3,n + 1,2){
+    for(int x = 3; x <= n; x += 2){
         if(lpf[x] == 2){
             prime.push_back(lpf[x] = x);
         }

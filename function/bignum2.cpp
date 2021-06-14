@@ -1,4 +1,7 @@
-#include <bits/stdc++.h>
+#include<cstdio>
+#include<cstring>
+#include<algorithm>
+#include<cstdlib>
 #define int64 long long
 using namespace std;
 const int bignumlen=2200; //高精度的位数 
@@ -203,14 +206,62 @@ struct bignum{
 		printf("%I64d",data[len]);
 		for(int i=len-1;i>=1;--i)printf("%0*I64d",Blen,data[i]);
 	}
-}a;
-
+}p,q,pp,qq;
+bignum gcd(const bignum &A,const bignum &B){
+	bignum a=A,b=B,res=1;
+	while(!(a[1]&1)  && !(b[1]&1))a/=2,b/=2,res*=2;
+	for(;;){
+		if(a.len==1 && a[1]==0)return b*res;
+		if(b.len==1 && b[1]==0)return a*res;
+		while(!(a[1]&1))a/=2;
+		while(!(b[1]&1))b/=2;
+		if(a>b)a-=b;
+		else b-=a;
+	}
+}
+void YF(bignum &A,bignum &B){
+	bignum tmp=gcd(A,B);
+	A/=tmp; B/=tmp;
+}
+int n,i,x,num;
 int main(){
-    int n;
-    scanf("%d",&n);
-    // fflush(stdin);
-	a.read();
-    a = a * (a + 1) * (a * 2 + 1) / 6;
-    a.write();
-    return 0;
+	scanf("%d",&n);
+	while(n%2==0){
+		n/=2;
+		num++;
+	}
+	if(n==1){
+		printf("%d/%d\n",num,1);
+		return 0;
+	}
+	p=0; q=1;
+	pp=1; qq=1;
+	for(i=n+1;;){
+		if(i>n){
+			if(q%(i-n)==0)q/=i-n;
+			else p*=i-n;
+			
+			if(qq%(i-n)==0)qq/=i-n;
+			else pp*=i-n;
+			
+			if(p%i==0)p/=i;
+			else q*=i;
+			
+			if(pp%i==0)pp/=i;
+			else qq*=i;
+			
+		}else p+=q;
+		if(i==1)break;
+		if(i%2==0)i/=2;
+		else i+=n;
+	}
+	YF(p,q);
+	p=p*qq;
+	q=q*(qq-pp);
+	
+	p+=q*num;
+	bignum tmp=gcd(p,q);
+	(p/tmp).write();
+	printf("/");
+	(q/tmp).write();
 }
